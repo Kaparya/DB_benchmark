@@ -1,10 +1,11 @@
 import psycopg2
 import sqlite3
 import duckdb
-import pandas
+import PandasOperations
+from pandas import read_csv
 import sqlalchemy
 
 
-a = 0
+time_pandas = PandasOperations.CheckPandas(3, False)
 
-print(a)
+print(time_pandas)
