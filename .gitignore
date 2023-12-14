@@ -1,5 +1,8 @@
 .idea/
 
+nyc_yellow_tiny.csv
+nyc_yellow_big.csv
+
 __pycache__/
 *.py[cod]
 *$py.class
