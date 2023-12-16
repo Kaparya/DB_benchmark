@@ -2,7 +2,7 @@ import psycopg2
 from time import time
 
 
-def PostgresFirstRequest(cursor, current_table, prints):
+def PostgresFirstQuery(cursor, current_table, prints):
     sql = '''SELECT vendorid, count(*) FROM {} GROUP BY 1;'''.format(current_table)
     cursor.execute(sql)
     if prints:
@@ -10,7 +10,7 @@ def PostgresFirstRequest(cursor, current_table, prints):
             print(i)
 
 
-def PostgresSecondRequest(cursor, current_table, prints):
+def PostgresSecondQuery(cursor, current_table, prints):
     sql = '''SELECT passenger_count, avg(total_amount) 
              FROM {} 
              GROUP BY 1;'''.format(current_table)
@@ -20,7 +20,7 @@ def PostgresSecondRequest(cursor, current_table, prints):
             print(i)
 
 
-def PostgresThirdRequest(cursor, current_table, prints):
+def PostgresThirdQuery(cursor, current_table, prints):
     sql = '''SELECT
                passenger_count, 
                extract(year from tpep_pickup_datetime),
@@ -33,7 +33,7 @@ def PostgresThirdRequest(cursor, current_table, prints):
             print(i)
 
 
-def PostgresFourthRequest(cursor, current_table, prints):
+def PostgresFourthQuery(cursor, current_table, prints):
     sql = '''SELECT
                 passenger_count,
                 extract(year from tpep_pickup_datetime),
@@ -73,16 +73,16 @@ def CheckPostgres(tries, big_data=False):
     for i in range(tries):
 
         start_time = time()
-        PostgresFirstRequest(cursor, current_table, prints)
+        PostgresFirstQuery(cursor, current_table, prints)
         time_first += time() - start_time
         time1 = time()
-        PostgresSecondRequest(cursor, current_table, prints)
+        PostgresSecondQuery(cursor, current_table, prints)
         time_second += time() - time1
         time2 = time()
-        PostgresThirdRequest(cursor, current_table, prints)
+        PostgresThirdQuery(cursor, current_table, prints)
         time_third += time() - time2
         time3 = time()
-        PostgresFourthRequest(cursor, current_table, prints)
+        PostgresFourthQuery(cursor, current_table, prints)
         time_fourth += time() - time3
         finish_time = time()
 
