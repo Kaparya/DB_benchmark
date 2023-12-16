@@ -2,6 +2,7 @@
 
 nyc_yellow_tiny.csv
 nyc_yellow_big.csv
+nyc_yellow_tiny.db
 
 __pycache__/
 *.py[cod]
