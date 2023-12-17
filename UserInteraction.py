@@ -102,7 +102,7 @@ def RunTestBig():
 def RunTestOneLibrary():
     library = -1
     while library == -1:
-        print('Do you want to use tiny or big file:')
+        print('Which library would you like to test:')
         print('0 - Pandas')
         print('1 - DuckDB')
         print('2 - Postgres')
