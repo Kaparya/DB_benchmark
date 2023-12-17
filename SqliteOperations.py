@@ -1,5 +1,6 @@
 import sqlite3
 from time import time
+from statistics import median
 
 
 def SqliteFirstQuery(cursor, current_table, prints):
@@ -65,35 +66,35 @@ def CheckSqlite(tries, big_data=False):
     else:
         current_table = "nyc_yellow_tiny"
 
-    time_sum = 0
-    time_first = 0
-    time_second = 0
-    time_third = 0
-    time_fourth = 0
+    time_sum = []
+    time_first = []
+    time_second = []
+    time_third = []
+    time_fourth = []
 
     for i in range(tries):
 
         start_time = time()
         SqliteFirstQuery(cursor, current_table, prints)
-        time_first += time() - start_time
+        time_first.append(time() - start_time)
         time1 = time()
         SqliteSecondQuery(cursor, current_table, prints)
-        time_second += time() - time1
+        time_second.append(time() - time1)
         time2 = time()
         SqliteThirdQuery(cursor, current_table, prints)
-        time_third += time() - time2
+        time_third.append(time() - time2)
         time3 = time()
         SqliteFourthQuery(cursor, current_table, prints)
-        time_fourth += time() - time3
+        time_fourth.append(time() - time3)
         finish_time = time()
 
-        time_sum += finish_time - start_time
+        time_sum.append(finish_time - start_time)
 
     connection.commit()
     connection.close()
 
-    return [time_sum / tries,
-            time_first / tries,
-            time_second / tries,
-            time_third / tries,
-            time_fourth / tries]
+    return [median(time_sum),
+            median(time_first),
+            median(time_second),
+            median(time_third),
+            median(time_fourth)]
