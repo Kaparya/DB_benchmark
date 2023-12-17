@@ -75,7 +75,7 @@ def RunTestTiny():
     big_data = False
     tries = -1
     while tries == -1:
-        tries_str = input('\nInput the number of tests (no more than 50 tests): ')
+        tries_str = input('Input the number of tests (no more than 50 tests): ')
         if tries_str.isnumeric() and 1 <= int(tries_str) <= 50:
             tries = int(tries_str)
             break
@@ -89,7 +89,7 @@ def RunTestBig():
     big_data = True
     tries = -1
     while tries == -1:
-        tries_str = input('\nInput the number of tests (no more than 20 tests): ')
+        tries_str = input('Input the number of tests (no more than 20 tests): ')
         if tries_str.isnumeric() and 1 <= int(tries_str) <= 20:
             tries = int(tries_str)
             break

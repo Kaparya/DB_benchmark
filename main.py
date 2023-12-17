@@ -1,29 +1,32 @@
-from PandasOperations import CheckPandas
-from DuckDBOperations import CheckDuckDB
-from PsycopgOperations import CheckPostgres
-from SqliteOperations import CheckSqlite
-from SQLAlchemyOperations import CheckSQLAlchemy
+from UserInteraction import RunTestBig, RunTestTiny
 
 
-big_data = True
-tries = 3
+while True:
+    print('\n\n\n------------ Benchmark ------------')
+    print('1. Run full test.')
+    print('2. Run test with tiny file.')
+    print('3. Run test with big file.\n')
+    print('4. Run test with only one library.\n')
+    print('0. Exit.')
 
-time_pandas = CheckPandas(tries, big_data)
-print('Pandas')
-print(time_pandas)
+    choice = -1
+    while choice == -1:
+        choice_str = input('Input the number to run (1/2/3/4/0): ')
+        if choice_str.isnumeric() and 0 <= int(choice_str) <= 4:
+            choice = int(choice_str)
+            break
+        print('Write correct number!\n')
 
-time_duckdb = CheckDuckDB(tries, big_data)
-print('DuckDB')
-print(time_duckdb)
+    if choice == 0:
+        print('\n\n\n------------ The end! ------------')
+        break
+    elif choice == 1:
+        print('\n\nRunning test with tiny file:')
+        RunTestTiny()
+        print('\n\nRunning test with big file:')
+        RunTestBig()
+    elif choice == 2:
+        RunTestTiny()
+    elif choice == 3:
+        RunTestBig()
 
-time_psycopg = CheckPostgres(tries, big_data)
-print('Postgres')
-print(time_psycopg)
-
-time_sqlite = CheckSqlite(tries, big_data)
-print('SQLite')
-print(time_sqlite)
-
-time_SQLAlchemy = CheckSQLAlchemy(tries, big_data)
-print('SQLAlchemy')
-print(time_SQLAlchemy)
