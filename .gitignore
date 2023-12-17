@@ -4,6 +4,9 @@ nyc_yellow_tiny.csv
 nyc_yellow_big.csv
 nyc_yellow_tiny.db
 
+ResultsOfTinyTest.txt
+ResultsOfBigTest.txt
+
 __pycache__/
 *.py[cod]
 *$py.class
