@@ -10,9 +10,9 @@
 
 * First query
   ```sql
-  
-  SELECT cab_type, count(*) FROM trips GROUP BY 1;
-  
+  SELECT cab_type, count(*)
+  FROM trips
+  GROUP BY 1;
   ```
 * Second query
   ```sql
@@ -105,7 +105,7 @@
 
    **Впечатления от работы с библиотеками:**
 
-   * Pandas - неприятная реализация SQL запросов. Однако, считывание базы данных из .csv очень удобно и понятно.
+   * Pandas - неприятная реализация SQL запросов (нельзя просто написать SQL запросы). Однако, считывание базы данных из .csv очень удобно и понятно (возможность хранения в Датафрейме)
   
    * DuckDB - очень удобно и очень просто: есть возможность считать базу данных из .csv одной функцией, запросы делаются обычным SQL языком.
   
@@ -124,10 +124,63 @@
 
    - **Pandas**
 
-     <img width="400" alt="Screenshot 2023-12-17 at 23 25 36" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/d8498dbe-d6f3-4461-921b-68e1ae32dd2f"> <img width="400" alt="Screenshot 2023-12-17 at 23 26 52" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/733ec34a-bf7c-4b89-8bb4-c32f99c01c07">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 25 36" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/d8498dbe-d6f3-4461-921b-68e1ae32dd2f">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 26 52" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/733ec34a-bf7c-4b89-8bb4-c32f99c01c07">
    
    - **DuckDB**
 
-     <img width="400" alt="Screenshot 2023-12-17 at 23 33 16" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/439bc5f0-541f-4a4d-95f8-747d8ed7c88b"> <img width="400" alt="Screenshot 2023-12-17 at 23 33 32" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/b7e0670d-e739-4528-996a-ceffadde5854">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 33 16" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/439bc5f0-541f-4a4d-95f8-747d8ed7c88b">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 33 32" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/b7e0670d-e739-4528-996a-ceffadde5854">
+
+   - **Postgres**
+
+     <img width="500" alt="Screenshot 2023-12-17 at 23 39 28" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/0e3d3cc4-cecf-434b-a14a-9ebdba630429">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 40 01" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/c9ef6aea-a214-4bb6-aa05-7767b8935cef">
+
+   - **SQLite**
+  
+     <img width="500" alt="Screenshot 2023-12-17 at 23 45 13" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/3d40187d-d323-4b3f-8ac8-7deaa658c61e">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 45 26" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/9aeb7079-ca3b-4833-9195-fdf36adbb51c">
+
+   - **SQLAlchemy**
+  
+     <img width="500" alt="Screenshot 2023-12-17 at 23 54 52" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/03983578-6e90-4fe8-a3de-04adba9f5df0">
+     <img width="500" alt="Screenshot 2023-12-17 at 23 56 17" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/f2ef72f5-5cbe-43bc-8ec8-6d557b072bf4">
+
+   ---
+   **Сравнение библиотек**
+   
+   <img width="800" alt="Screenshot 2023-12-18 at 00 02 55" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/5bcdda96-1141-47a3-a57b-96fc5d3570cf">
+
+   По графику сразу заметно, что наибольшее время работу у SQLite, затем идет Psycopg, Pandas, DuckDB и SQLAlchemy. При этом, время SQLite больше всех остальных примерно в 9 раз. Однако, на первом query postgres обгоняет по времени даже DuckDB.
+
+   <img width="800" alt="Screenshot 2023-12-18 at 00 03 05" src="https://github.com/Kaparya/DB_benchmark/assets/124422354/3d050a13-cd7c-47f3-a471-d82e8b3dbf40">
+
+   Ситуация, не сильно отличается от tiny data (в принципе, очевидно). SQLAlchemy и тут работает настолько быстро, что его даже не видно.
+
+---
+3. Причины различия во времени
+
+   Самая быстрая библиотека - *SQLAlchemy*. Cкорей всего именно из-за скорости часто используется в бэкенде. (По факту, должна быть медленее SQLite, из-за того, что это надстройка над ней, однако у меня она работает космически быстро, осмелюсь предпроложить, что это возможно за счет процессоров от Apple, они гораздо быстрее, чем обычные).
+   
+   *DuckDB* тоже быстро:
+   
+       * держит базу данных в памяти
+   
+       * хорошо оптимизирована для сложных queries
+   
+       * написана на C++, а не на C (в отличие от SQLite) => присутствуют оптимизации, появившиеся в C++
+   
+   *SQLite* медленно:
+   
+       * написана на C - не хватает современных оптимизаций
+   
+       * вышла в 2000 году
+
+       * больше оптимизирована для работы и записи сразу в несколько БД
+   
+   *Postrgres* - приходится каждый раз читать данные, потому что база данных не в памяти, а только курсор по ней бегает.
+   
+   *Pandas* - тоже надстройка над SQLite, позволяющая хранить базу данных в датафрейме => работает быстрее, чем SQLite.
 
 
