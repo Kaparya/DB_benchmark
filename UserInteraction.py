@@ -97,3 +97,40 @@ def RunTestBig():
 
     print('\n\n\nRunning test with big file.')
     RunTest(tries, big_data)
+
+
+def RunTestOneLibrary():
+    library = -1
+    while library == -1:
+        print('Do you want to use tiny or big file:')
+        print('0 - Pandas')
+        print('1 - DuckDB')
+        print('2 - Postgres')
+        print('3 - SQLite')
+        print('4 - SQLAlchemy')
+        library_str = input('Input the number (0/1/2/3/4): ')
+        if library_str.isnumeric() and 0 <= int(library_str) <= 4:
+            library = int(library_str)
+
+    big_data = -1
+    while big_data == -1:
+        big_data_str = input('Do you want to use tiny or big file (0 - tiny/1 - big): ')
+        if big_data_str.isnumeric() and 0 <= int(big_data_str) <= 1:
+            big_data = int(big_data_str)
+
+    if library == 0:
+        time_library = CheckPandas(1, big_data)
+        PrintResults(time_library, 'Pandas')
+    if library == 1:
+        time_library = CheckDuckDB(1, big_data)
+        PrintResults(time_library, 'DuckDB')
+    if library == 2:
+        time_library = CheckPostgres(1, big_data)
+        PrintResults(time_library, 'Postgres')
+    if library == 3:
+        time_library = CheckSqlite(1, big_data)
+        PrintResults(time_library, 'SQLite')
+    if library == 4:
+        time_library = CheckSQLAlchemy(1, big_data)
+        PrintResults(time_library, 'SQLAlchemy')
+

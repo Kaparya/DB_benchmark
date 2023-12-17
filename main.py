@@ -1,4 +1,4 @@
-from UserInteraction import RunTestBig, RunTestTiny
+from UserInteraction import RunTestBig, RunTestTiny, RunTestOneLibrary
 
 
 while True:
@@ -29,4 +29,6 @@ while True:
         RunTestTiny()
     elif choice == 3:
         RunTestBig()
+    elif choice == 4:
+        RunTestOneLibrary()
 
